@@ -135,35 +135,51 @@ joined_blast_data_metadata <- metadata_in %>%
 # from the data to make a histogram. We don't need to tell the hist() function
 # which data to use, because that's piped in, but we do have to give the
 # hist() function the title and axis label we'd like to use for the figure
+
+# Histogram to visualize only human samples utilizing Human Skin Oil
 joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   pull(pident) %>%
-  hist(main = "Percent Identity",
+  hist(main = "Percent Identity of Human Environmental Material within Whole Data",
        xlab = "Percent")
 
+# Histogram to visualize sex of human hosts
 joined_blast_data_metadata %>%
-  filter(sample_type_s == "right palm") %>%
-  pull(pident) %>%
-  hist(main = "Location of Sequence Sample",
-       xlab = "Percent Right Palm")
-
-joined_blast_data_metadata %>%
-  filter(sample_type_s == "computer mouse") %>%
-  pull(pident) %>%
-  hist(main = "Location of Sequence Sample 2",
-       xlab = "Percent of Computer Mouse")
-
-joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum") %>%
   filter(sex_s == "female") %>%
   pull(pident) %>%
-  hist(main = "Sex of Participant",
+  hist(main = "Percent of Human Environmental Material Analyzed for Females",
        xlab = "Percent")
 
+# Histogram to visualize sex of human hosts which were found in relationship to comp. mice
 joined_blast_data_metadata %>%
-  filter(body_habitat_s == "UBERON:skin") %>%
+  filter(env_material_s == "sebum") %>%
+  filter(sex_s == "female") %>%
+  filter(sample_type_s == "computer mouse") %>%
   pull(pident) %>%
-  hist(main = "Percent of Body Habitat Analyzed",
-       xlab = "Percent of skin")
+  hist(main = "Percent of Human Environmental Material Analyzed for Females on Computer Mice",
+       xlab = "Percent")
+
+# Histogram to visualize length of sequences based on human host and sex
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum") %>%
+  filter(sex_s == "female") %>%
+  pull(length) %>%
+  hist(main = "Query Sequence Length of Human Environmental Material Analyzed for Females",
+       xlab = "Length in BP")
+
+
+# Histogram to visualize length of sequences based on human host and sex which were found in relationship to comp. mice
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum") %>%
+  filter(sex_s == "female") %>%
+  filter(sample_type_s == "computer mouse") %>%
+  pull(length) %>%
+  hist(main = "Query Sequence Length of Human Environmental Material Analyzed for Females on Computer Mice",
+       xlab = "Length in BP")
+
+
+
 ```
 
 Don't forget to report what your figures show in words, here in the Results section.
