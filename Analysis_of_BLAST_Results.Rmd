@@ -148,7 +148,8 @@ joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   pull(pident) %>%
   hist(main = "Percent Identity of Human Environmental Material",
-       xlab = "Percent Identity")
+       xlab = "Percent Identity",
+       col = "darkseagreen2")
 ```
 
 Once primarily human genomic data was extrapolated, only the female data was further filtered out utilizing the percent indentification for each sequence
@@ -162,7 +163,8 @@ joined_blast_data_metadata %>%
   filter(sex_s == "female") %>%
   pull(pident) %>%
   hist(main = "Percent Identity of Human Environmental Material for Females",
-       xlab = "Percent Identity")
+       xlab = "Percent Identity",
+       col = "pink")
 ```
 
 
@@ -177,7 +179,8 @@ joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   pull(length) %>%
   hist(main = "Sequence Length of Human Environmental Material",
-       xlab = "Length in BP")
+       xlab = "Length in BP",
+       col = "darkseagreen2")
 ```
 
 Once primarily human genomic data was extrapolated, only the female data was further filtered out utilizing the sequence length for each sequence.
@@ -191,7 +194,8 @@ joined_blast_data_metadata %>%
   filter(sex_s == "female") %>%
   pull(length) %>%
   hist(main = "Sequence Length of Human Environmental Material for Females",
-       xlab = "Length in BP")
+       xlab = "Length in BP",
+       col = "pink")
 ```
 
 Once the data had been subsetted by both sequence length and percent identity match, to visualize potential skews and data indescrepancies, a further analyses was done to quantify the amount of specific bacterial colonies seen on female participant samples.
@@ -222,10 +226,13 @@ group_by(sscinames) %>%
   count() %>%
   arrange(desc(n)) %>%
   head (5) %>%
-  ggplot(aes(main = "Table 2a. Species visualized for Human Environmnetal Material Analyzed for Humans", 
-             x = sscinames,
+  ggplot(aes( x = sscinames,
              y = n)) +
-    geom_bar(stat = "Identity")
+    geom_bar(stat = "Identity") +
+    ggtitle("Most Common Bacterial Communities for Females") +
+    theme_minimal() + 
+    xlab( "Scientific Names") +
+    ylab ("Number of Communities")
 ```
 
 After the most common bacteiral species was identified for the sex of interest analysis of the data was done through a histogram to visualize the frequency of this specific bacterial community, in regards to percent identity and base pair length within the sequences.
@@ -240,7 +247,8 @@ joined_blast_data_metadata %>%
   filter(sscinames == "Bartonella washoensis") %>%
   pull(pident) %>%
   hist(main = "Percent Identity for Females for Most Common Bacteria",
-       xlab = "Percent")
+       xlab = "Percent",
+       col = "hotpink")
 ```
 
 **Figure 4b.** Histogram for Query Sequence Length of Human Environmental Material Analyzed for Females for Most Common Community Found
@@ -253,7 +261,8 @@ joined_blast_data_metadata %>%
   filter(sscinames == "Bartonella washoensis") %>%
   pull(length) %>%
   hist(main = "Sequence Length for Females for Most Common Bacteria",
-       xlab = "Length in BP")
+       xlab = "Length in BP",
+       col = "hotpink")
 ```
 
 After female analyses were run it was concluded that a potential difference could be present between the sexes due to behavioral and physiological traits. To further investigate these differences within sex analyses were continued on male participant data using the most common bacterial species.
@@ -288,7 +297,11 @@ group_by(sscinames) %>%
   head (5) %>%
   ggplot(aes(x = sscinames,
              y = n)) +
-    geom_bar(stat = "Identity")
+    geom_bar(stat = "Identity") +
+    ggtitle("Most Common Bacterial Communities for Males") +
+    theme_minimal() + 
+    xlab( "Scientific Names") +
+    ylab ("Number of Communities")
 ```
 
 
@@ -306,7 +319,8 @@ joined_blast_data_metadata %>%
   filter(sscinames == "Solemya pervernicosa gill symbiont") %>%
   pull(pident) %>%
   hist(main = "Percent Identity for Males for Most Common Bacteria",
-       xlab = "Percent")
+       xlab = "Percent",
+       col = "steelblue1")
 ```
 
 
@@ -321,7 +335,8 @@ joined_blast_data_metadata %>%
   filter(sscinames == "Solemya pervernicosa gill symbiont") %>%
   pull(length) %>%
   hist(main = "Sequence Length for Males for Most Common Bacteria",
-       xlab = "Length in BP")
+       xlab = "Length in BP",
+       col = "steelblue1")
 ```
 
 
