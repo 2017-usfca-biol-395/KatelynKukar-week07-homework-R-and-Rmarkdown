@@ -16,15 +16,16 @@ Within this study we analyze data collected from the Fierer Lab in Colorado thro
 
 Sample origin, sequencing and computational techniques were utilized to analyze sequencing sets collected from human participants and coinciding mice which were touched by each participant in the study. 
 
-These mice and participants were originally 
 
 ## Sample origin and sequencing
 
-Add about a paragraph here.
+
 
 ## Computational
 
-And another paragraph or two here.
+In order to analyze the sequences received we used computational programs to evaluate species of interest. 
+  First, we analyzed the Fastq files which stored the biological sequences ran by evaluating the quality control number contained. We looked at the coressponding quality score in a chart to ensure the sequencing data was coherent and applicable to our study (no outliers due to contamination or fault sequencing techniques).
+  Second, we took sequences gathered in Fastq files and ran them against a program to trim and align each length for optimal analysis. We then used a secondary program to 
 
 # Results
 
