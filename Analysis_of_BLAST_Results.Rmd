@@ -140,6 +140,30 @@ joined_blast_data_metadata %>%
   pull(pident) %>%
   hist(main = "Percent Identity",
        xlab = "Percent")
+
+joined_blast_data_metadata %>%
+  filter(sample_type_s == "right palm") %>%
+  pull(pident) %>%
+  hist(main = "Location of Sequence Sample",
+       xlab = "Percent Right Palm")
+
+joined_blast_data_metadata %>%
+  filter(sample_type_s == "computer mouse") %>%
+  pull(pident) %>%
+  hist(main = "Location of Sequence Sample 2",
+       xlab = "Percent of Computer Mouse")
+
+joined_blast_data_metadata %>%
+  filter(sex_s == "female") %>%
+  pull(pident) %>%
+  hist(main = "Sex of Participant",
+       xlab = "Percent")
+
+joined_blast_data_metadata %>%
+  filter(body_habitat_s == "UBERON:skin") %>%
+  pull(pident) %>%
+  hist(main = "Percent of Body Habitat Analyzed",
+       xlab = "Percent of skin")
 ```
 
 Don't forget to report what your figures show in words, here in the Results section.
