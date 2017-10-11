@@ -7,9 +7,16 @@ output: github_document
 
 # Introduction
 
-Add 1-2 paragraphs here.
+Creating alternative ways of identification is highly important within the field of Forensics because this would allow for more specific analysis of potential suspects. By being able to compare blood, fingerprints, and other means testing methods gain a higher level of statistical significance for true suspect identification. Creating alternative methods is also important since some areas of interest lack both DNA evidence and individual fingerprints allowing for ambiguity that could be resolved via other testing means. In Fierer et al., scientists explain that bacteria colonized on individual hands represent highly specific and diverse communities. They believe that "because skin bacterial communities are personalized, [they] could use the residual skin bacteria left on objects for forensic identification, matching the bacteria on the object to the skin-associated bacteria of the individual who touched the object," (Fierer et al.). 
+
+Within this study we analyze data collected from the Fierer Lab in Colorado through sequencing and computational techniques. The information gathered from the sequencing sets will be evaluated to further evidence towards the validity of utilizing such methods within forensic analysis. 
+
 
 # Methods
+
+Sample origin, sequencing and computational techniques were utilized to analyze sequencing sets collected from human participants and coinciding mice which were touched by each participant in the study. 
+
+These mice and participants were originally 
 
 ## Sample origin and sequencing
 
