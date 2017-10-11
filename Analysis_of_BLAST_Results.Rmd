@@ -132,6 +132,8 @@ joined_blast_data_metadata <- metadata_in %>%
             by = c("Run_s" = "sample_name"))
 ```
 
+###Extrapolating Human Female Data from Meta Data
+
 The data first needed to be subsetted by human genomic data which was done though the extrapolation of "Sebum," utilizing the percent identification for each sequence.
 
 **Figure 1a.** Histogram of Percent Identity of Human Environmental Material within Whole Data
@@ -198,6 +200,8 @@ joined_blast_data_metadata %>%
        col = "pink")
 ```
 
+
+###Identifying Specific Bacterial Colonies for Females
 Once the data had been subsetted by both sequence length and percent identity match, to visualize potential skews and data indescrepancies, a further analyses was done to quantify the amount of specific bacterial colonies seen on female participant samples.
 
 
@@ -265,6 +269,9 @@ joined_blast_data_metadata %>%
        xlab = "Length in BP",
        col = "hotpink")
 ```
+
+
+######Identifying Specific Bacterial Colonies for Males
 
 After female analyses were run it was concluded that a potential difference could be present between the sexes due to behavioral and physiological traits. To further investigate these differences within sex analyses were continued on male participant data using the most common bacterial species.
 
