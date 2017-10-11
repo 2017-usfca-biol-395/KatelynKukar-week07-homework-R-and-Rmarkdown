@@ -38,6 +38,7 @@ In order to analyze the sequences received we used computational programs to eva
 library("dplyr")
 library("tidyr")
 library("knitr")
+library("ggplot2")
 ```
 
 ```{r make-read-in-data-function}
@@ -140,58 +141,182 @@ joined_blast_data_metadata <- metadata_in %>%
 joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   pull(pident) %>%
-  hist(main = "Percent Identity of Human Environmental Material within Whole Data",
+  hist(main = "Figure 1a. Percent Identity of Human Environmental Material within Whole Data",
        xlab = "Percent")
+```
 
+```{r, echo=FALSE}
 # Histogram to visualize sex of human hosts
 joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   filter(sex_s == "female") %>%
   pull(pident) %>%
-  hist(main = "Percent of Human Environmental Material Analyzed for Females",
+  hist(main = "Figure 1b. Percent of Human Environmental Material Analyzed for Females",
        xlab = "Percent")
+```
 
-# Histogram to visualize sex of human hosts which were found in relationship to comp. mice
+```{r, echo=FALSE}
+# Histogram to visualize only human samples utilizing Human Skin Oil
 joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
-  filter(sex_s == "female") %>%
-  filter(sample_type_s == "computer mouse") %>%
-  pull(pident) %>%
-  hist(main = "Percent of Human Environmental Material Analyzed for Females on Computer Mice",
-       xlab = "Percent")
+  pull(length) %>%
+  hist(main = "Figure 2a. Query Sequence Length of Human Environmental Material within Whole Data",
+       xlab = "Length in BP")
+```
 
+
+```{r, echo=FALSE}
 # Histogram to visualize length of sequences based on human host and sex
 joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   filter(sex_s == "female") %>%
   pull(length) %>%
-  hist(main = "Query Sequence Length of Human Environmental Material Analyzed for Females",
+  hist(main = " Figure 2a. Query Sequence Length of Human Environmental Material Analyzed for Females",
        xlab = "Length in BP")
-
-
-# Histogram to visualize length of sequences based on human host and sex which were found in relationship to comp. mice
-joined_blast_data_metadata %>%
-  filter(env_material_s == "sebum") %>%
-  filter(sex_s == "female") %>%
-  filter(sample_type_s == "computer mouse") %>%
-  pull(length) %>%
-  hist(main = "Query Sequence Length of Human Environmental Material Analyzed for Females on Computer Mice",
-       xlab = "Length in BP")
-
-
-
 ```
 
 Don't forget to report what your figures show in words, here in the Results section.
 
-```{r summary-table}
-# Finally, we'd like to be able to make a summary table of the counts of
-# sequences for each taxa for each sample. To do that we can use the table()
-# function. We add the kable() function as well (from the tidyr package)
-# in order to format the table nicely when the document is knitted
-kable(table(joined_blast_data_metadata$sscinames,
-            joined_blast_data_metadata$Run_s))
+```{r summary-2, echo=FALSE}
+
+# Table to visualize which Scientific Names are seen within this subset
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum" & sex_s == "female") %>%
+group_by(sscinames) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  head (5) %>%
+  kable()
+
 ```
+
+```{r, echo=FALSE}
+# Bar-chart to visualize most common Scientific Names utilized for female human host participants
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum" & sex_s == "female") %>%
+group_by(sscinames) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  head (5) %>%
+  ggplot(aes(main = "Table 2a. Species visualized for Human Environmnetal Material Analyzed for Humans", 
+             x = sscinames,
+             y = n)) +
+    geom_bar(stat = "Identity")
+```
+
+```{r, echo=FALSE}
+# Histogram for most common species visualized by percent identity for females
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum") %>%
+  filter(sex_s == "female") %>%
+  filter(sscinames == "Bartonella washoensis") %>%
+  pull(pident) %>%
+  hist(main = "Figure 3a. Percent Identity of Human Environmental Material Analyzed for Females for Most Common Community Found",
+       xlab = "Percent")
+```
+
+```{r, echo=FALSE}
+# Histogram for most common species visualized by length for females
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum") %>%
+  filter(sex_s == "female") %>%
+  filter(sscinames == "Bartonella washoensis") %>%
+  pull(length) %>%
+  hist(main = "Figure 3b. Query Sequence Length of Human Environmental Material Analyzed for Females for Most Common Community Found",
+       xlab = "Length in BP")
+```
+
+
+```{r, echo=FALSE}
+
+# Table to visualize which Scientific Names are seen within this subset for males to compare to females
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum" & sex_s == "male") %>%
+group_by(sscinames) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  head (5) %>%
+  kable()
+
+```
+
+```{r, echo=FALSE}
+
+# Bar-chart for most commonly found bacteria for males
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum" & sex_s == "male") %>%
+group_by(sscinames) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  head (5) %>%
+  ggplot(aes(x = sscinames,
+             y = n)) +
+    geom_bar(stat = "Identity")
+```
+
+
+```{r}
+
+# Histogram for percent identification of specific bacteria found for males
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum") %>%
+  filter(sex_s == "male") %>%
+  filter(sscinames == "Solemya pervernicosa gill symbiont") %>%
+  pull(pident) %>%
+  hist(main = "Figure 4a. Percent Identity of Human Environmental Material Analyzed for Males for Most Common Community Found",
+       xlab = "Percent")
+```
+
+```{r}
+
+# Histogram for seqeunce length of specific bacteria found for males
+joined_blast_data_metadata %>%
+  filter(env_material_s == "sebum") %>%
+  filter(sex_s == "male") %>%
+  filter(sscinames == "Solemya pervernicosa gill symbiont") %>%
+  pull(length) %>%
+  hist(main = "Figure 4b. Query Sequence Length of Human Environmental Material Analyzed for Males for Most Common Community Found",
+       xlab = "Length in BP")
+```
+
+
+```{r, gplot2, echo=FALSE}
+
+# Boxplot for male versus female sequence lengths
+ggplot(joined_blast_data_metadata,
+       aes(x = sex_s,
+           y = length)) + 
+  geom_jitter(alpha = 0.05) +
+  ggtitle("Length of Sequences for Male versus Female Participants") +
+  xlab("Sex") +
+  ylab("Length of Sequences") +
+  theme_minimal()
+```
+
+```{r, echo=FALSE}
+
+# Boxplot for male versus female percent identification 
+ggplot(joined_blast_data_metadata,
+       aes(x = sex_s,
+           y = pident)) + 
+  geom_jitter(alpha = 0.05) +
+  ggtitle("Percent Match for Male Verus Female Participants") +
+  xlab("Sex") +
+  ylab("Percent Match") +
+  theme_minimal()
+```
+
+```{r, echo=FALSE}
+
+# ggplot to look at lengths based on female and males and where the species came from
+ggplot(joined_blast_data_metadata,
+       aes(x = length,
+           fill = sample_type_s)) +
+    geom_density(alpha=0.5) +
+    facet_grid(sex_s ~ host_subject_id_s) +
+    theme_minimal()
+```
+
 
 # Discussion
 
