@@ -1,15 +1,16 @@
 ---
 title: "Analysis of BLAST Results"
-author: "Don Francisco"
+author: "Katelyn B. Kukar"
 date: "October 6, 2017"
 output: github_document
 ---
 
 # Introduction
 
-Creating alternative ways of identification is highly important within the field of Forensics because this would allow for more specific analysis of potential suspects. By being able to compare blood, fingerprints, and other means testing methods gain a higher level of statistical significance for true suspect identification. Creating alternative methods is also important since some areas of interest lack both DNA evidence and individual fingerprints allowing for ambiguity that could be resolved via other testing means. In Fierer et al., scientists explain that bacteria colonized on individual hands represent highly specific and diverse communities. They believe that "because skin bacterial communities are personalized, [they] could use the residual skin bacteria left on objects for forensic identification, matching the bacteria on the object to the skin-associated bacteria of the individual who touched the object," (Fierer et al.). 
 
-Within this study we analyze data collected from the Fierer Lab in Colorado through sequencing and computational techniques. The information gathered from the sequencing sets will be evaluated to further evidence towards the validity of utilizing such methods within forensic analysis. 
+Creating alternative ways of identification is highly important within the field of Forensics because this would allow for more specific analysis of potential suspects. By being able to compare blood, fingerprints, and other means of testing methods allows for a higher level of statistical significance for true suspect identification. Creating alternative methods is also important since some investigations of suspects of interest lack both DNA evidence and individual fingerprints allowing for ambiguity that could be resolved via other testing means. In Fierer et al., scientists explain that bacteria colonized on individual hands represent highly specific and diverse communities. They believe that "because skin bacterial communities are personalized, [they] could use the residual skin bacteria left on objects for forensic identification, matching the bacteria on the object to the skin-associated bacteria of the individual who touched the object," (Fierer et al.). 
+
+Within this study we analyze data collected from the Fierer Lab in Colorado through sequencing and computational techniques. The information gathered from the sequencing sets will be evaluated to further evidence towards the validity of utilizing such methods within forensic analysis. Specifically this analysis will utilize prior knowledge geared towards differences between the male and female sex. We hypothesize the female sex will have signficantlly different data than that of the male sex due to physiological and behavioral differences. Certain assumptions for this hypothesis include males having traditionally different hand shape and size, body hair, and fat percentage which constitue physiological differences. Assumptions of behavior for these differences are based on hygiene patterns experienced by males and females due to cultural biases towards the feminine construct.
 
 
 # Methods
@@ -29,7 +30,9 @@ In order to analyze the sequences received we used computational programs to eva
 
 # Results
 
-```{r load-libraries, message = FALSE}
+The results section was primarily used to extrapolate data in regards to female participants and the specific bacterial communities identified. This section outlines statistical analyses used to filter through the data set to identify the specific bacterial communties and where they arose against male counterpots.
+
+```{r load-libraries, message = FALSE, echo=FALSE}
 # Be sure to install these packages before running this script
 # They can be installed either with the intall.packages() function
 # or with the 'Packages' pane in RStudio
@@ -41,7 +44,7 @@ library("knitr")
 library("ggplot2")
 ```
 
-```{r make-read-in-data-function}
+```{r make-read-in-data-function, echo=FALSE}
 # Output format from BLAST is as detailed on:
 # https://www.ncbi.nlm.nih.gov/books/NBK279675/
 # In this case, we used: '10 sscinames std'
@@ -87,7 +90,7 @@ read_blast_output <- function(filename) {
 }
 ```
 
-```{r read-in-BLAST-data}
+```{r read-in-BLAST-data,echo=FALSE}
 # this makes a vector of all the BLAST output file names, including
 # the name(s) of the directories they are in
 files_to_read_in <- list.files(path = "output/blast",
@@ -108,7 +111,7 @@ for (filename in files_to_read_in) {
 }
 ```
 
-```{r read-in-metadata-and-join}
+```{r read-in-metadata-and-join, echo=FALSE}
 # Next we want to read in the metadata file so we can add that in too
 # This is not a csv file, so we have to use a slightly different syntax
 # here the `sep = "\t"` tells the function that the data are tab-delimited
@@ -129,8 +132,11 @@ joined_blast_data_metadata <- metadata_in %>%
             by = c("Run_s" = "sample_name"))
 ```
 
+The data first needed to be subsetted by human genomic data which was done though the extrapolation of "Sebum," utilizing the percent identification for each sequence.
 
-```{r histograms}
+**Figure 1a.** Histogram of Percent Identity of Human Environmental Material within Whole Data
+
+```{r histograms, echo=FALSE}
 # Here we're using the dply piping syntax to select a subset of rows matching a
 # criteria we specify (using the filter) function, and then pull out a column
 # from the data to make a histogram. We don't need to tell the hist() function
@@ -141,9 +147,13 @@ joined_blast_data_metadata <- metadata_in %>%
 joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   pull(pident) %>%
-  hist(main = "Figure 1a. Percent Identity of Human Environmental Material within Whole Data",
-       xlab = "Percent")
+  hist(main = "Percent Identity of Human Environmental Material",
+       xlab = "Percent Identity")
 ```
+
+Once primarily human genomic data was extrapolated, only the female data was further filtered out utilizing the percent indentification for each sequence
+
+**Figure 1b.** Histogram of Percent Identity of Human Environmental Material Analyzed for Females
 
 ```{r, echo=FALSE}
 # Histogram to visualize sex of human hosts
@@ -151,19 +161,28 @@ joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   filter(sex_s == "female") %>%
   pull(pident) %>%
-  hist(main = "Figure 1b. Percent of Human Environmental Material Analyzed for Females",
-       xlab = "Percent")
+  hist(main = "Percent Identity of Human Environmental Material for Females",
+       xlab = "Percent Identity")
 ```
+
+
+The data next needed to be subsetted by human genomic data which was done though the extrapolation of "Sebum," utilizing the sequence length for each sequence as a secondary check against percent identity matches. These two characters were constantly used to analyze the data throughout the experiment.
+
+
+**Figure 2a.** Histogram of Query Sequence Length of Human Environmental Material within Whole Data
 
 ```{r, echo=FALSE}
 # Histogram to visualize only human samples utilizing Human Skin Oil
 joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   pull(length) %>%
-  hist(main = "Figure 2a. Query Sequence Length of Human Environmental Material within Whole Data",
+  hist(main = "Sequence Length of Human Environmental Material",
        xlab = "Length in BP")
 ```
 
+Once primarily human genomic data was extrapolated, only the female data was further filtered out utilizing the sequence length for each sequence.
+
+**Figure 2b.** Histgram of Query Sequence Length of Human Environmental Material Analyzed for Females
 
 ```{r, echo=FALSE}
 # Histogram to visualize length of sequences based on human host and sex
@@ -171,11 +190,14 @@ joined_blast_data_metadata %>%
   filter(env_material_s == "sebum") %>%
   filter(sex_s == "female") %>%
   pull(length) %>%
-  hist(main = " Figure 2a. Query Sequence Length of Human Environmental Material Analyzed for Females",
+  hist(main = "Sequence Length of Human Environmental Material for Females",
        xlab = "Length in BP")
 ```
 
-Don't forget to report what your figures show in words, here in the Results section.
+Once the data had been subsetted by both sequence length and percent identity match, to visualize potential skews and data indescrepancies, a further analyses was done to quantify the amount of specific bacterial colonies seen on female participant samples.
+
+
+**Table 1** Most Common Bacterial Communities visualized within Female Participants
 
 ```{r summary-2, echo=FALSE}
 
@@ -189,6 +211,8 @@ group_by(sscinames) %>%
   kable()
 
 ```
+
+**Figure 3** Bar Graph of Most Common Bacterial Communities visualized within Female Participants
 
 ```{r, echo=FALSE}
 # Bar-chart to visualize most common Scientific Names utilized for female human host participants
@@ -204,6 +228,10 @@ group_by(sscinames) %>%
     geom_bar(stat = "Identity")
 ```
 
+After the most common bacteiral species was identified for the sex of interest analysis of the data was done through a histogram to visualize the frequency of this specific bacterial community, in regards to percent identity and base pair length within the sequences.
+
+**Figure 4a.** Histogram for Percent Identity of Human Environmental Material Analyzed for Females for Most Common Bacterial Community Found
+
 ```{r, echo=FALSE}
 # Histogram for most common species visualized by percent identity for females
 joined_blast_data_metadata %>%
@@ -211,9 +239,11 @@ joined_blast_data_metadata %>%
   filter(sex_s == "female") %>%
   filter(sscinames == "Bartonella washoensis") %>%
   pull(pident) %>%
-  hist(main = "Figure 3a. Percent Identity of Human Environmental Material Analyzed for Females for Most Common Community Found",
+  hist(main = "Percent Identity for Females for Most Common Bacteria",
        xlab = "Percent")
 ```
+
+**Figure 4b.** Histogram for Query Sequence Length of Human Environmental Material Analyzed for Females for Most Common Community Found
 
 ```{r, echo=FALSE}
 # Histogram for most common species visualized by length for females
@@ -222,10 +252,14 @@ joined_blast_data_metadata %>%
   filter(sex_s == "female") %>%
   filter(sscinames == "Bartonella washoensis") %>%
   pull(length) %>%
-  hist(main = "Figure 3b. Query Sequence Length of Human Environmental Material Analyzed for Females for Most Common Community Found",
+  hist(main = "Sequence Length for Females for Most Common Bacteria",
        xlab = "Length in BP")
 ```
 
+After female analyses were run it was concluded that a potential difference could be present between the sexes due to behavioral and physiological traits. To further investigate these differences within sex analyses were continued on male participant data using the most common bacterial species.
+
+
+**Table 2** Most Common Bacterial Communities visualized within Male Participants
 
 ```{r, echo=FALSE}
 
@@ -239,6 +273,9 @@ group_by(sscinames) %>%
   kable()
 
 ```
+
+
+**Figure 5.** Bar Graph of Most Common Bacterial Communities visualized within Male Participants
 
 ```{r, echo=FALSE}
 
@@ -255,7 +292,12 @@ group_by(sscinames) %>%
 ```
 
 
-```{r}
+After the most common bacteiral species was identified for the sex of interest analysis of the data was done through a histogram to visualize the frequency of this specific bacterial community, in regards to percent identity and base pair length within the sequences. This was done specifically for the male population due to the visualization of differing bacterial communities from the female specific analyses done prior.
+
+
+**Figure 6a.** Histogram of Percent Identity of Human Environmental Material Analyzed for Males for Most Common Community Found
+
+```{r, echo=FALSE}
 
 # Histogram for percent identification of specific bacteria found for males
 joined_blast_data_metadata %>%
@@ -263,11 +305,14 @@ joined_blast_data_metadata %>%
   filter(sex_s == "male") %>%
   filter(sscinames == "Solemya pervernicosa gill symbiont") %>%
   pull(pident) %>%
-  hist(main = "Figure 4a. Percent Identity of Human Environmental Material Analyzed for Males for Most Common Community Found",
+  hist(main = "Percent Identity for Males for Most Common Bacteria",
        xlab = "Percent")
 ```
 
-```{r}
+
+**Figure 6b.** Histogram of Query Sequence Length of Human Environmental Material Analyzed for Males for Most Common Community Found
+
+```{r, echo=FALSE}
 
 # Histogram for seqeunce length of specific bacteria found for males
 joined_blast_data_metadata %>%
@@ -275,23 +320,14 @@ joined_blast_data_metadata %>%
   filter(sex_s == "male") %>%
   filter(sscinames == "Solemya pervernicosa gill symbiont") %>%
   pull(length) %>%
-  hist(main = "Figure 4b. Query Sequence Length of Human Environmental Material Analyzed for Males for Most Common Community Found",
+  hist(main = "Sequence Length for Males for Most Common Bacteria",
        xlab = "Length in BP")
 ```
 
 
-```{r, gplot2, echo=FALSE}
+After both male and female data sets were individually analyzed comparitive measures were taken to showcase differences in percent identity and seqeunce lengths overall. In this way sex specific interpretations could be made towards bacterial communities visualized based on original sequence data received.
 
-# Boxplot for male versus female sequence lengths
-ggplot(joined_blast_data_metadata,
-       aes(x = sex_s,
-           y = length)) + 
-  geom_jitter(alpha = 0.05) +
-  ggtitle("Length of Sequences for Male versus Female Participants") +
-  xlab("Sex") +
-  ylab("Length of Sequences") +
-  theme_minimal()
-```
+**Figure 7a.** Percent Match for Male Verus Female Participants
 
 ```{r, echo=FALSE}
 
@@ -306,15 +342,19 @@ ggplot(joined_blast_data_metadata,
   theme_minimal()
 ```
 
-```{r, echo=FALSE}
+**Figure 7b.** Length of Sequences for Male versus Female Participants
 
-# ggplot to look at lengths based on female and males and where the species came from
+```{r, gplot2, echo=FALSE}
+
+# Boxplot for male versus female sequence lengths
 ggplot(joined_blast_data_metadata,
-       aes(x = length,
-           fill = sample_type_s)) +
-    geom_density(alpha=0.5) +
-    facet_grid(sex_s ~ host_subject_id_s) +
-    theme_minimal()
+       aes(x = sex_s,
+           y = length)) + 
+  geom_jitter(alpha = 0.05) +
+  ggtitle("Length of Sequences for Male versus Female Participants") +
+  xlab("Sex") +
+  ylab("Length of Sequences") +
+  theme_minimal()
 ```
 
 
