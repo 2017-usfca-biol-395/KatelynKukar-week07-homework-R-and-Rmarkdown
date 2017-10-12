@@ -15,18 +15,30 @@ Within this study we analyze data collected from the Fierer Lab in Colorado thro
 
 # Methods
 
-Sample origin, sequencing and computational techniques were utilized to analyze sequencing sets collected from human participants and coinciding mice which were touched by each participant in the study. 
+Sample origin, sequencing and computational techniques were utilized to analyze sequencing sets collected from human participants and their coinciding bacterial sequences from taken samples.
 
 
 ## Sample origin and sequencing
 
+####Sample Collection
+
+All analysis was done using Fierer et al. as a reference source for sequence data and sample origins. Within the paper it is stated that samples were taken from nine healthy adults (four female, five male) who worked within the same building at the University of Colorado between ages 18-40. The samples taken included computer mouse swabs touched by the owner 12h before swabbing and the palm of the individual's dominant hand used to operate the mouse. Individuals were required to maintain normal hygiene habits prior to the swab as to not increase variation. The swabs were taken using autoclaved cotton-tipped swabs that were autoclaved and pre-moistened with a sterile solution. The swabbing took place for 10s per sample taken with all samples being kept at -80C for less than a week before DNA extraction (Fierer et al). 
+
+####DNA Extraction and Pyrosequencing
+
+Fierer et al. explains that for each sample the 16s rRNA genes were amplified using the MO BIO PowerSoil DNA Isolation kit with the broken, frozen cotton swabs. These tubes were then horizontally shaken and kit procedures were followed for extraction. PCR reactions were carried out in triplicate repeatsusing HotMAsterMic with thermal cycling at 94C for 3min followed by 35 cycles of denaturation, annealing for 30s, and extension and final extension procedures. Replicate amplicons were pooled in agarose gel using SYBR Safe DNA gel stain from Invitrogen. Amplicon DNA conentrations were then measured with the final pool of DNA being percipitated, centrifuged, and centrifuged to create a pellet that was resuspended in nuclease-free water. Pyrosequencing was then carried out on a 454 Life Sciences Genome Sequencer FLX instrument at the University of South Carolina (Fierer et al).
 
 
 ## Computational
 
-In order to analyze the sequences received we used computational programs to evaluate species of interest. 
-  First, we analyzed the Fastq files which stored the biological sequences ran by evaluating the quality control number contained. We looked at the coressponding quality score in a chart to ensure the sequencing data was coherent and applicable to our study (no outliers due to contamination or fault sequencing techniques).
-  Second, we took sequences gathered in Fastq files and ran them against a program to trim and align each length for optimal analysis. We then used a secondary program to 
+In order to analyze the sequences received we used computational programs to evaluate variables of interest. The variables we want to analyze more specifically include participant sex and commonly found bacterial community strains within the metadata set. 
+  
+To create a meta data set with all of the vectors of interest we initially utilized the raw data sets collected from the 454 Sequencer and published by Fierer et al. This was done using a remote server and fastq-dump to download the list of files in the run table to the raw directory. QC reports were then created for each of the runs utilizing fastqc and outputted as HTML to be readable. The fastqc files were trimmed (Trimmomatic Tool) based on their quality scores to discard sequences under 150 base pairs and cut off reads when the base score drops below 25. Fastqc files were then converted to fasta files to be used as BLAST queries (Bioawk). These files were then run against NCBI database (nt), using BLAST (blastn) to output csv file which was based on the name output and included all of the seqeunce data, plus the bacterial communities each sequence matched to with thier quality scores and additional information.
+  
+Then the Blast results were further formatted to create an output datafram with proper column headers that denote each variable of interest from the results (qseqid). After this, the query sequence ID was split into Sample and Number components to group the files into columns (tidyr and separate) to make a vector of all the BLAST output file names, including the names of the directories. An empty matrix was created to join the data back and read in the meta data (rbind).
+
+We than use dplyr piping syntax to select a subset of row matching each vector we want to filter (categorically) and pipe out (numerically) to create histograms. We also used ggplot syntax as a comparitive feature to plot multiple categorical variables against one another using one primary numerical variable. Tables were created with kable to tabularize quanitifed data sets and visualize the most common bacterial communities found for singular categorical vectors (males and females).
+
 
 # Results
 
