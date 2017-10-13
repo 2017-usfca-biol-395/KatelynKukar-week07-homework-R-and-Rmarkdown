@@ -396,5 +396,15 @@ ggplot(joined_blast_data_metadata,
 
 # Discussion
 
-Add 2-3 paragraphs here interpreting your results and considering future directions one might take in analyzing these data.
+####Females
+  Utilizing R as a tool to create our graphics for statistical analysis of the sequence data we were able to extrapolate multiple histograms that depicted skews related to percent identity and sequence length in female participants. 
+    We were able to extapolate only human samples from the data set by looking for "sebum" samples, these samples represent a common human skin oil which is unlike the dust sampled from the electronics.
+    For percent identity of the specific sequences found the histogram represented a majority of the sequences residing in the 98-100 percent identitiy match range. We can conclude that for Female samples the sequences were more specific. To create a secondary check for the goodness of the sequence data we also looked at sequence length to see if any short sequences potentially created indescrepencies during blast analysis. The histogram depicted a skew with the majority of sequences between 220-240 base pairs. However marginal outliers did exist. We can rationalize these sequence lengths because a majority of sequencing platforms can only sequence a maximum read length of 240 base pairs. 
+    We finally filtered out the female participants in regard to the scientific name of the species and count the most common bacterial communities in order to divulge the most common species found was **Bartonella washoensis**. **Bartonella washonesis** is commonly found as a cause for meningitis. Potentially the female participants were mroe susceptible to meningitis due to their proximity of work (in the same building) or from exposure to mites from animals located at the University of Colorado, a naturally "outdoors" oriented campus. 
+    This specific data was analyzed further to find the average percent match for **Bartonella washoensis** was between 99-100 percent, and sequence length in base pairs was between 220-230. Both of these numbers give us evidence towards the fact that this is an undisputable found 
+
+####Males
+  Once female data was compiled male participants were also analyzed to find **Solemya pervernicosa gill symbiont** 
+
+####Compartitive Analysis
 
