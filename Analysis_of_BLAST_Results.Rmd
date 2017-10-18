@@ -241,15 +241,15 @@ joined_blast_data_metadata %>%
 group_by(sscinames) %>%
   count() %>%
   arrange(desc(n)) %>%
-  head (5) %>%
-  ggplot(aes( x = sscinames,
+  head(5) %>%
+  ggplot(aes(x = sscinames,
              y = n)) +
-    geom_bar(stat = "Identity", 
+    geom_bar(stat = "Identity",
              fill = "hotpink") +
     ggtitle("Most Common Bacterial Communities for Females") +
-    theme_minimal() + 
-    xlab( "Scientific Names") +
-    ylab ("Number of Communities") 
+    theme_minimal() +
+    xlab("Scientific Names") +
+    ylab("Number of Communities")
 ```
 
 After the most common bacterial species was identified for the sex of interest analysis of the data was done through a histogram to visualize the frequency of this specific bacterial community, in regards to percent identity and base pair length within the sequences.
@@ -292,7 +292,7 @@ After female analyses were run it was concluded that a potential difference coul
 
 ```{r, echo=FALSE}
 
-# Table to visualize which Scientific Names are seen within this subset for males to compare to females
+# Table for males to compare to females for Sci Names
 joined_blast_data_metadata %>%
   filter(env_material_s == "sebum" & sex_s == "male") %>%
 group_by(sscinames) %>%
