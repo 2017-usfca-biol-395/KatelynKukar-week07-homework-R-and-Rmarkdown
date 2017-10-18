@@ -298,7 +298,7 @@ joined_blast_data_metadata %>%
 group_by(sscinames) %>%
   count() %>%
   arrange(desc(n)) %>%
-  head (5) %>%
+  head(5) %>%
   kable(col.names = c("Scientific Names", "Count"))
 
 ```
@@ -314,15 +314,15 @@ joined_blast_data_metadata %>%
 group_by(sscinames) %>%
   count() %>%
   arrange(desc(n)) %>%
-  head (5) %>%
+  head(5) %>%
   ggplot(aes(x = sscinames,
              y = n)) +
     geom_bar(stat = "Identity",
              fill = "steelblue1") +
     ggtitle("Most Common Bacterial Communities for Males") +
-    theme_minimal() + 
-    xlab( "Scientific Names") +
-    ylab ("Number of Communities")
+    theme_minimal() +
+    xlab("Scientific Names") +
+    ylab("Number of Communities")
 ```
 
 
@@ -367,10 +367,10 @@ After both male and female data sets were individually analyzed comparative meas
 
 ```{r, echo=FALSE}
 
-# Boxplot for male versus female percent identification 
+# Boxplot for male versus female percent identification
 ggplot(joined_blast_data_metadata,
        aes(x = sex_s,
-           y = pident)) + 
+           y = pident)) +
   geom_jitter(alpha = 0.05) +
   ggtitle("Percent Match for Male Verus Female Participants") +
   xlab("Sex") +
@@ -385,7 +385,7 @@ ggplot(joined_blast_data_metadata,
 # Boxplot for male versus female sequence lengths
 ggplot(joined_blast_data_metadata,
        aes(x = sex_s,
-           y = length)) + 
+           y = length)) +
   geom_jitter(alpha = 0.05) +
   ggtitle("Length of Sequences for Male versus Female Participants") +
   xlab("Sex") +
